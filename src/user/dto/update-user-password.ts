@@ -1,11 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 
-export class UpdateUserDto {
+export class UpdateUserPasswordDto {
+  @IsNotEmpty({
+    message: '密码不能为空'
+  })
+  @MinLength(6, {
+    message: '密码不能少于 6 位'
+  })
   @ApiProperty()
-  headPic: string;
-
-  nickName: string;
+  password: string;
 
   @IsNotEmpty({
     message: '邮箱不能为空'

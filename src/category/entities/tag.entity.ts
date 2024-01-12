@@ -3,7 +3,7 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 @Entity()
 export class Tag {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column({
     comment: '标签名称'

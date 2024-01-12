@@ -10,6 +10,7 @@ export class User {
     comment: '用户名'
   })
   username: string;
+
   @Column({
     length: 50,
     comment: '密码'

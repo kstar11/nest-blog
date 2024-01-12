@@ -10,7 +10,6 @@ import {
 } from 'typeorm';
 import { User } from '@/user/entities/user.entity';
 import { Category } from '@/category/entities/category.entity';
-import { Comment } from '@/comments/entities/comment.entity';
 import { Tag } from '@/category/entities/tag.entity';
 
 @Entity()
@@ -35,6 +34,18 @@ export class Article {
   })
   content: string;
 
+  @Column({
+    comment: '浏览次数',
+    default: 0
+  })
+  viewCount: number;
+
+  @Column({
+    comment: '点赞数量',
+    default: 0
+  })
+  favorCount: number;
+
   @ManyToOne(() => User, (user) => user.username)
   user: User;
 
@@ -46,12 +57,6 @@ export class Article {
     name: 'article_tag'
   })
   tags: Tag[];
-
-  @ManyToMany(() => Comment, (comment) => comment.content)
-  @JoinTable({
-    name: 'article_comment'
-  })
-  comments: Comment[];
 
   @CreateDateColumn({
     comment: '创建时间'

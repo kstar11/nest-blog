@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { User } from '@/user/entities/user.entity';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Comment {
@@ -12,6 +13,19 @@ export class Comment {
 
   @Column()
   articleId: number;
+
+  @Column({
+    default: 0
+  })
+  parentId: number;
+
+  @Column({
+    default: 0
+  })
+  favorCount: number;
+
+  @ManyToOne(() => User, (user) => user.id)
+  user: User;
 
   @CreateDateColumn({
     comment: '创建时间'

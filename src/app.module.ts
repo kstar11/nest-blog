@@ -21,7 +21,6 @@ import { Article } from '@/article/entities/article.entity';
 import { Category } from '@/category/entities/category.entity';
 import { Tag } from '@/category/entities/tag.entity';
 import { Comment } from '@/comments/entities/comment.entity';
-import { Reply } from '@/comments/entities/reply.entity';
 
 @Module({
   imports: [
@@ -35,13 +34,13 @@ import { Reply } from '@/comments/entities/reply.entity';
           password: configService.get('mysql_server_password'),
           database: configService.get('mysql_server_database'),
           synchronize: true,
-          logging: true,
+          logging: false,
           poolSize: 10,
           connectorPackage: 'mysql2',
           extra: {
             authPlugin: 'sha256_password'
           },
-          entities: [User, Article, Category, Tag, Comment, Reply]
+          entities: [User, Article, Category, Tag, Comment]
         };
       },
       inject: [ConfigService]
@@ -58,12 +57,12 @@ import { Reply } from '@/comments/entities/reply.entity';
               return `${appStr} ${time} ${level} ${contextStr} ${chalk.green(message)}`;
             })
           )
-        }),
-        new transports.File({
-          format: format.combine(format.timestamp(), format.prettyPrint()),
-          filename: 'server.log',
-          dirname: 'logs'
         })
+        // new transports.File({
+        //   format: format.combine(format.timestamp(), format.prettyPrint()),
+        //   filename: 'server.log',
+        //   dirname: 'logs'
+        // })
       ]
     }),
     ConfigModule.forRoot({
