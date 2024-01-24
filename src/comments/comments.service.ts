@@ -44,7 +44,7 @@ export class CommentsService {
       await this.commentRepository.insert(newComment);
       return '评论成功!';
     } catch (e) {
-      this.logger.error(e, CommentsService);
+      this.logger.log(e, CommentsService);
       return '评论失败!';
     }
   }

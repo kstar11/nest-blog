@@ -1,19 +1,17 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { transports, format } from 'winston';
-import * as chalk from 'chalk';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 
 import { AppController } from '@/app.controller';
 import { AppService } from '@/app.service';
-import { WinstonModule } from '@/winston/winston.module';
 import { UserModule } from '@/user/user.module';
 import { ArticleModule } from '@/article/article.module';
 import { CategoryModule } from '@/category/category.module';
 import { CommentsModule } from '@/comments/comments.module';
 
+import { LoggerModule } from '@/logger/logger.module';
 import { LoginGuard } from '@/guards/login.guard';
 
 import { User } from '@/user/entities/user.entity';
@@ -45,26 +43,6 @@ import { Comment } from '@/comments/entities/comment.entity';
       },
       inject: [ConfigService]
     }),
-    WinstonModule.forRoot({
-      level: 'debug',
-      transports: [
-        new transports.Console({
-          format: format.combine(
-            format.colorize(),
-            format.printf(({ context, level, message, time }) => {
-              const appStr = chalk.green(`[NEST]`);
-              const contextStr = chalk.yellow(`[${context}]`);
-              return `${appStr} ${time} ${level} ${contextStr} ${chalk.green(message)}`;
-            })
-          )
-        })
-        // new transports.File({
-        //   format: format.combine(format.timestamp(), format.prettyPrint()),
-        //   filename: 'server.log',
-        //   dirname: 'logs'
-        // })
-      ]
-    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: 'src/.env'
@@ -84,7 +62,8 @@ import { Comment } from '@/comments/entities/comment.entity';
     UserModule,
     ArticleModule,
     CategoryModule,
-    CommentsModule
+    CommentsModule,
+    LoggerModule
   ],
   controllers: [AppController],
   providers: [

@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import { WINSTON_LOGGER_TOKEN } from '@/winston/winston.module';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from '@/app.module';
 import { FormatResponseInterceptor } from '@/filters/format-response.interceptor';
@@ -32,7 +32,7 @@ async function bootstrap() {
   SwaggerModule.setup('api-doc', app, document);
 
   app.enableCors();
-  app.useLogger(app.get(WINSTON_LOGGER_TOKEN));
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
   const configService = app.get(ConfigService);
   await app.listen(configService.get('nest_server_port'));

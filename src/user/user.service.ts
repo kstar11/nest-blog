@@ -35,7 +35,7 @@ export class UserService {
       await this.userRepository.insert(newUser);
       return '注册成功!';
     } catch (e) {
-      this.logger.error(e, UserService);
+      this.logger.log(e, UserService);
       return '注册失败!';
     }
   }
@@ -135,7 +135,7 @@ export class UserService {
       await this.userRepository.save(foundUser);
       return '修改成功';
     } catch (e) {
-      this.logger.error(e, UserService);
+      this.logger.log(e, UserService);
       return '修改失败';
     }
   }
@@ -161,7 +161,7 @@ export class UserService {
       await this.userRepository.save(foundUser);
       return '密码修改成功';
     } catch (e) {
-      this.logger.error(e, UserService);
+      this.logger.log(e, UserService);
       return '密码修改失败';
     }
   }

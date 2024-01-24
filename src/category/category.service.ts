@@ -31,7 +31,7 @@ export class CategoryService {
       await this.categoryRepository.insert(createCategoryDto);
       return '新增成功';
     } catch (e) {
-      this.logger.error(e, CategoryService);
+      this.logger.log(e, CategoryService);
       return '新增失败';
     }
   }
@@ -49,7 +49,7 @@ export class CategoryService {
       await this.tagRepository.insert(createTagDto);
       return '新增成功';
     } catch (e) {
-      this.logger.error(e, CategoryService);
+      this.logger.log(e, CategoryService);
       return '新增失败';
     }
   }
@@ -63,7 +63,7 @@ export class CategoryService {
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+    return `This action updates a #${id} ${JSON.stringify(updateCategoryDto)} category`;
   }
 
   remove(id: number) {
