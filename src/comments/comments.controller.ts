@@ -47,6 +47,7 @@ export class CommentsController {
     description: '文章Id',
     type: Number
   })
+  @RequireLogin()
   @Get('list/:articleId')
   findAll(@Param('articleId') articleId: number) {
     return this.commentsService.findAll(articleId);
@@ -77,6 +78,7 @@ export class CommentsController {
     description: '留言Id',
     type: Number
   })
+  @RequireLogin()
   @Delete(':commentId')
   remove(@Param('commentId') id: number) {
     return this.commentsService.remove(id);

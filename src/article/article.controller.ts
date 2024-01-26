@@ -17,7 +17,7 @@ import { CreateArticleDto } from '@/article/dto/create-article.dto';
 import { UpdateArticleDto } from '@/article/dto/update-article.dto';
 import { ArticleListVo, Article } from '@/article/vo/article.vo';
 import { generateParseIntPipe } from '@/utils';
-import { UserInfo } from '@/custom.decorator';
+import { RequireLogin, UserInfo } from '@/custom.decorator';
 
 @ApiTags('文章管理模块')
 @Controller('article')
@@ -30,6 +30,7 @@ export class ArticleController {
     description: '新增成功/失败',
     type: String
   })
+  @RequireLogin()
   @Post('create')
   create(@Body() createArticleDto: CreateArticleDto, @UserInfo('userId') userId: number) {
     return this.articleService.create(createArticleDto, userId);
@@ -64,6 +65,7 @@ export class ArticleController {
     description: '文章列表',
     type: ArticleListVo
   })
+  @RequireLogin()
   @Get('list')
   findAll(
     @Query('pageNo', new DefaultValuePipe(1), generateParseIntPipe('pageNo')) pageNo: number,
@@ -89,6 +91,7 @@ export class ArticleController {
     description: '文章Id',
     type: Number
   })
+  @RequireLogin()
   @Get('detail/:id')
   findOne(@Param('id') id: number) {
     return this.articleService.findOne(id);
@@ -119,6 +122,7 @@ export class ArticleController {
     description: '文章Id',
     type: Number
   })
+  @RequireLogin()
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
     return this.articleService.update(+id, updateArticleDto);
@@ -134,6 +138,7 @@ export class ArticleController {
     description: '文章Id',
     type: Number
   })
+  @RequireLogin()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.articleService.remove(+id);
