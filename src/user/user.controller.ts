@@ -10,9 +10,10 @@ import {
   HttpStatus,
   Inject,
   Query,
-  DefaultValuePipe
+  DefaultValuePipe,
+  HttpCode
 } from '@nestjs/common';
-import { ApiBody, ApiTags, ApiResponse, ApiBearerAuth, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiBody, ApiTags, ApiResponse, ApiBearerAuth, ApiParam, ApiQuery, ApiOperation } from '@nestjs/swagger';
 import { JwtService } from '@nestjs/jwt';
 import { RequireLogin, UserInfo } from '@/custom.decorator';
 import { UserService } from '@/user/user.service';
@@ -35,6 +36,12 @@ export class UserController {
   @Inject(ConfigService)
   private configService: ConfigService;
 
+  @ApiOperation({
+    summary: '用户注册',
+    description: '用户注册',
+    tags: ['用户管理模块']
+  })
+  @HttpCode(HttpStatus.OK)
   @ApiBody({ type: RegisterUserDto })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -51,6 +58,11 @@ export class UserController {
     return this.userService.register(createUserDto);
   }
 
+  @ApiOperation({
+    summary: '用户列表',
+    description: '用户列表',
+    tags: ['用户管理模块']
+  })
   @ApiBearerAuth()
   @ApiQuery({
     name: 'pageNo',
@@ -101,6 +113,11 @@ export class UserController {
     return this.userService.findUsersByPage(username, nickName, email, pageNo, pageSize);
   }
 
+  @ApiOperation({
+    summary: '用户登录',
+    description: '用户登录',
+    tags: ['用户管理模块']
+  })
   @ApiBody({ type: LoginUserDto })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -127,6 +144,11 @@ export class UserController {
     return vo;
   }
 
+  @ApiOperation({
+    summary: '用户详情',
+    description: '用户详情',
+    tags: ['用户管理模块']
+  })
   @ApiParam({
     name: 'id',
     description: '用户Id',
@@ -142,6 +164,11 @@ export class UserController {
     return this.userService.findUserById(+id);
   }
 
+  @ApiOperation({
+    summary: '用户冻结',
+    description: '用户冻结',
+    tags: ['用户管理模块']
+  })
   @ApiBearerAuth()
   @ApiParam({
     name: 'id',
@@ -159,6 +186,11 @@ export class UserController {
     return 'success';
   }
 
+  @ApiOperation({
+    summary: '用户更新',
+    description: '用户更新',
+    tags: ['用户管理模块']
+  })
   @ApiBearerAuth()
   @ApiBody({
     type: UpdateUserDto
@@ -178,6 +210,11 @@ export class UserController {
     return this.userService.update(userId, updateUserDto);
   }
 
+  @ApiOperation({
+    summary: '用户修改密码',
+    description: '用户修改密码',
+    tags: ['用户管理模块']
+  })
   @ApiBearerAuth()
   @ApiBody({
     type: UpdateUserPasswordDto
@@ -198,6 +235,11 @@ export class UserController {
     return await this.userService.updatePassword(userId, passwordDto);
   }
 
+  @ApiOperation({
+    summary: '用户删除',
+    description: '用户删除',
+    tags: ['用户管理模块']
+  })
   @ApiBearerAuth()
   @ApiResponse({
     status: HttpStatus.OK,

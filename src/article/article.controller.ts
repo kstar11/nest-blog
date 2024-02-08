@@ -11,7 +11,7 @@ import {
   DefaultValuePipe,
   HttpCode
 } from '@nestjs/common';
-import { ApiBody, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiQuery, ApiResponse, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ArticleService } from '@/article/article.service';
 import { CreateArticleDto } from '@/article/dto/create-article.dto';
 import { UpdateArticleDto } from '@/article/dto/update-article.dto';
@@ -24,18 +24,28 @@ import { RequireLogin, UserInfo } from '@/custom.decorator';
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
-  @ApiBody({ type: CreateArticleDto })
+  @ApiOperation({
+    summary: '新增文章',
+    description: '新增文章',
+    tags: ['文章管理模块']
+  })
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     description: '新增成功/失败',
     type: String
   })
+  @ApiBody({ type: CreateArticleDto })
   @RequireLogin()
   @Post('create')
   create(@Body() createArticleDto: CreateArticleDto, @UserInfo('userId') userId: number) {
     return this.articleService.create(createArticleDto, userId);
   }
 
+  @ApiOperation({
+    summary: '获取文章列表',
+    description: '获取文章列表',
+    tags: ['文章管理模块']
+  })
   @ApiQuery({
     name: 'pageNo',
     description: '第几页',
@@ -76,6 +86,11 @@ export class ArticleController {
     return this.articleService.findAll(pageNo, pageSize, title, category);
   }
 
+  @ApiOperation({
+    summary: '获取文章详情',
+    description: '获取文章详情',
+    tags: ['文章管理模块']
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: '文章详情',
@@ -97,6 +112,11 @@ export class ArticleController {
     return this.articleService.findOne(id);
   }
 
+  @ApiOperation({
+    summary: '点赞文章',
+    description: '点赞文章',
+    tags: ['文章管理模块']
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: '点赞成功/失败',
@@ -112,6 +132,11 @@ export class ArticleController {
     return this.articleService.favoriteArticle(id);
   }
 
+  @ApiOperation({
+    summary: '更新文章',
+    description: '更新文章',
+    tags: ['文章管理模块']
+  })
   @ApiBody({ type: UpdateArticleDto })
   @ApiResponse({
     description: '更新成功/失败',
@@ -128,6 +153,11 @@ export class ArticleController {
     return this.articleService.update(+id, updateArticleDto);
   }
 
+  @ApiOperation({
+    summary: '删除文章',
+    description: '删除文章',
+    tags: ['文章管理模块']
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: '删除成功/失败',
